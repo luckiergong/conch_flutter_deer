@@ -21,12 +21,24 @@ import 'package:sp_util/sp_util.dart';
 import 'package:url_strategy/url_strategy.dart';
 import 'package:window_manager/window_manager.dart';
 
-import "./conch_inject.dart";
+import 'package:flutter_conch_plugin/annotation/patch_scope.dart';
+import 'package:flutter_conch_plugin/conch_dispatch.dart';
 
+bool useConch = true;
+
+@PatchScope()
 Future<void> main() async {
+
+  /// 确保初始化完成
   WidgetsFlutterBinding.ensureInitialized();
 
-  init_conch();
+  if (useConch) {
+    var source =
+        await rootBundle.load('assets/conch_build/patch_dat/conch_result.dat');
+    ConchDispatch.instance.loadByteSource(source);
+    return await ConchDispatch.instance.callStaticFun(
+        library: 'package:flutter_deer/main.dart', funcName: 'mainInner');
+  }
   await mainInner();
 }
 
