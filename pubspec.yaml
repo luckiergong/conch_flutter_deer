@@ -77,10 +77,20 @@ dependencies:
   scratcher: ^2.5.0
   # 动画效果 https://github.com/xvrh/lottie-flutter
   lottie: ^3.1.0
-
+  flutter_conch_loader:
+    hosted:
+      name: flutter_conch_loader
+      url: http://pub.oa.com
+    version: 1.0.0
 # https://github.com/simplezhli/flutter_deer/issues/187
 dependency_overrides:
   scrollable_positioned_list: ^0.3.2
+  flutter_conch_plugin:
+    hosted:
+      name: flutter_conch_plugin
+      url: http://pub.oa.com
+    version: ^1.6.0
+
 
 
 dev_dependencies:
@@ -136,3 +146,8 @@ flutter:
 
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+conch:
+  enable: true # 开启conch（默认开启）
+  conchMode: all&hotfix
+  versionCode: 1.0.0
+  targetBaseVersions: 1.0.0

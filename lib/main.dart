@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_conch_loader/flutter_conch_loader.dart';
 import 'package:flutter_deer/demo/demo_page.dart';
 import 'package:flutter_deer/home/splash_page.dart';
 import 'package:flutter_deer/net/dio_utils.dart';
@@ -21,7 +22,17 @@ import 'package:sp_util/sp_util.dart';
 import 'package:url_strategy/url_strategy.dart';
 import 'package:window_manager/window_manager.dart';
 
+import "./conch_inject.dart";
+
 Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  init_conch();
+  await mainInner();
+}
+
+@PatchScope()
+mainInner() async {
 //  debugProfileBuildsEnabled = true;
 //  debugPaintLayerBordersEnabled = true;
 //  debugProfilePaintsEnabled = true;
@@ -30,6 +41,7 @@ Future<void> main() async {
     /// Release环境时不打印debugPrint内容
     debugPrint = (String? message, {int? wrapWidth}) {};
   }
+
   /// 异常处理
   handleError(() async {
     /// 确保初始化完成
@@ -46,6 +58,7 @@ Future<void> main() async {
         /// 设置桌面端窗口大小
         await windowManager.setSize(const Size(400, 800));
         await windowManager.setMinimumSize(const Size(400, 800));
+
         /// 居中显示
         await windowManager.center();
         await windowManager.show();
@@ -123,10 +136,7 @@ class MyApp extends StatelessWidget {
 
       quickActions.setShortcutItems(<ShortcutItem>[
         const ShortcutItem(
-          type: 'demo',
-          localizedTitle: 'Demo',
-          icon: 'flutter_dash_black'
-        ),
+            type: 'demo', localizedTitle: 'Demo', icon: 'flutter_dash_black'),
       ]);
     }
   }
@@ -139,7 +149,8 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => LocaleProvider())
       ],
       child: Consumer2<ThemeProvider, LocaleProvider>(
-        builder: (_, ThemeProvider provider, LocaleProvider localeProvider, __) {
+        builder:
+            (_, ThemeProvider provider, LocaleProvider localeProvider, __) {
           return _buildMaterialApp(provider, localeProvider);
         },
       ),
@@ -147,15 +158,16 @@ class MyApp extends StatelessWidget {
 
     /// Toast 配置
     return OKToast(
-      backgroundColor: Colors.black54,
-      textPadding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
-      radius: 20.0,
-      position: ToastPosition.bottom,
-      child: app
-    );
+        backgroundColor: Colors.black54,
+        textPadding:
+            const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
+        radius: 20.0,
+        position: ToastPosition.bottom,
+        child: app);
   }
 
-  Widget _buildMaterialApp(ThemeProvider provider, LocaleProvider localeProvider) {
+  Widget _buildMaterialApp(
+      ThemeProvider provider, LocaleProvider localeProvider) {
     return MaterialApp(
       title: 'Flutter Deer',
       // showPerformanceOverlay: true, //显示性能标签
@@ -176,7 +188,8 @@ class MyApp extends StatelessWidget {
       builder: (BuildContext context, Widget? child) {
         /// 保证文字大小不受手机系统设置影响 https://www.kikt.top/posts/flutter/layout/dynamic-text/
         return MediaQuery(
-          data: MediaQuery.of(context).copyWith(textScaler: TextScaler.noScaling),
+          data:
+              MediaQuery.of(context).copyWith(textScaler: TextScaler.noScaling),
           child: child!,
         );
       },
