@@ -49,6 +49,7 @@ mainInner() async {
 //  debugRepaintRainbowEnabled = true;
   if (Constant.inProduction) {
     /// Release环境时不打印debugPrint内容
+    // 类型不匹配问题
     // debugPrint = (String? message, {int? wrapWidth}) {};
   }
   /// 异常处理
