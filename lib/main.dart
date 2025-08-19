@@ -49,7 +49,7 @@ mainInner() async {
 //  debugRepaintRainbowEnabled = true;
   if (Constant.inProduction) {
     /// Release环境时不打印debugPrint内容
-    debugPrint = (String? message, {int? wrapWidth}) {};
+    // debugPrint = (String? message, {int? wrapWidth}) {};
   }
 
   /// 异常处理
