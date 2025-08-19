@@ -1,2 +1,5 @@
-java_version: 17
+andriod:
+  java_version: 17
+ios:
+  unknown:
 flutter_version: 3.24
